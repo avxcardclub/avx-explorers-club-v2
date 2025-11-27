@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVX Explorers Club</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #2A6B3D;
+            color: white;
+            min-height: 100vh;
+            padding: 20px 10px;
+            text-align: center;
+        }
+        .c {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .logo {
+            width: 140px;
+            display: block;
+            margin: 20px auto 10px;
+        }
+        h1 {
+            margin: 10px 0 20px;
+            font-size: 28px;
+        }
+        form {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-family: Arial;
+        }
+        input, select {
+            border: 2px solid #F2A900;
+            background: white;
+            color: #333;
+        }
+        button {
+            background: #F2A900;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .tabs {
+            display: flex;
+            margin: 35px 0 15px;
+            border-bottom: 3px solid #F2A900;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+        }
+        .tab {
+            flex: 1;
+            padding: 16px;
+            background: rgba(255,255,255,0.12);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #F2A900;
+            color: black;
+        }
+        #tab-content {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            min-height: 480px;
+        }
+        #card {
+            background: url('https://i.imgur.com/0Xk9WoM.png') center/contain no-repeat;
+            width: 100%;
+            height: 220px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+        #card .info {
+            width: 60%;
+            padding: 15px;
+            text-align: right;
+            color: white;
+            font-family: Arial;
+            font-size: 12px;
+        }
+        #card h2 {
+            font-size: 15px;
+            margin: 5px 0;
+            font-weight: normal;
+        }
+        #card p {
+            font-size: 12px;
+            margin: 3px 0;
+            font-weight: normal;
+        }
+        .qr {
+            width: 60px;
+            height: 60px;
+            background: white;
+            padding: 4px;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="c">
+        <div id="onboarding">
+            <img src="https://i.imgur.com/N2KXmYp.png" alt="AVX" class="logo">
+            <h1>Welcome to AVX Explorers Club!</h1>
+            <p>Free lifetime digital membership</p>
+            <form id="registerForm">
+                <input type="text" id="fullName" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="tel" id="whatsapp" placeholder="WhatsApp (optional)">
+                <select id="country" required>
+                    <option value="">Country</option>
+                    <option>USA</option><option>UK</option><option>Canada</option><option>Germany</option>
+                    <option>France</option><option>Costa Rica</option><option>Other</option>
+                </select>
+                <label><input type="checkbox" id="terms" required> I accept terms & conditions</label>
+                <button type="submit">Generate My Card</button>
+            </form>
+        </div>
+
+        <div id="mainScreen" style="display:none">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('card')">Card</button>
+                <button class="tab" onclick="showTab('editions')">Editions</button>
+                <button class="tab" onclick="showTab('partners')">Partners</button>
+                <button class="tab" onclick="showTab('giveaways')">Giveaways</button>
+            </div>
+            <div id="tab-content"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const data = {
+                fullName: document.getElementById('fullName').value.trim(),
+                code: 'AVX-' + Date.now().toString().slice(-6),
+                date: new Date().toLocaleDateString('en-GB')
+            };
+            localStorage.setItem('avxUser', JSON.stringify(data));
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+            showTab('card');
+        });
+
+        function showTab(t) {
+            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const c = document.getElementById('tab-content');
+            const u = JSON.parse(localStorage.getItem('avxUser'));
+            if (t === 'card') {
+                c.innerHTML = `
+                    <div id="card">
+                        <div class="info">
+                            <h2>${u.fullName}</h2>
+                            <p>${u.code}</p>
+                            <p>Lifetime Member</p>
+                            <p>Since ${u.date}</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?data=${u.code}&size=120x120" class="qr" alt="QR">
+                        </div>
+                    </div>
+                    <button onclick="navigator.share?.({title:'My AVX Card',url:location.href})||alert('Card shared!')" style="margin-top:30px;padding:18px;background:#F2A900;border:none;border-radius:14px;width:100%;font-weight:bold;font-size:19px;">Share Card</button>
+                    <button onclick="downloadCard()" style="margin-top:12px;padding:18px;background:#0b4d24;color:white;border:none;border-radius:14px;width:100%;font-weight:bold;font-size:19px;">Download Card as PNG</button>`;
+            } else if (t === 'editions') c.innerHTML = '<p style="font-size:19px">Edition 01 – January 2026<br>Interactive PDF coming soon</p>';
+            else if (t === 'partners') c.innerHTML = '<ul style="text-align:left;font-size:18px"><li>Desafío Adventure – 20% off</li><li>Nayara Resorts – 15% off</li><li>Sky Adventures – 10% off</li><li>Pacuare Lodge – 25% off</li></ul>';
+            else if (t === 'giveaways') c.innerHTML = '<p style="font-size:19px">Active Giveaway: Tandem Skydive<br>You are already entered!</p>';
+        }
+
+        function downloadCard() {
+            html2canvas(document.getElementById('card'), {scale:3, useCORS:true, backgroundColor:null}).then(canvas => {
+                const a = document.createElement('a');
+                const u = JSON.parse(localStorage.getItem('avxUser'));
+                a.download = `AVX_${u.code}.png`;
+                a.href = canvas.toDataURL();
+                a.click();
+            });
+        }
+
+        if (localStorage.getItem('avxUser')) {
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+            showTab('card');
+        }
+    </script>
+</body>
+</html>
