@@ -59,38 +59,36 @@
 
     <!-- Formulario oculto con los entry IDs correctos -->
     <form id="hiddenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeOwkJMi558qdpXsUGeU3VjMU-MdhhZYOQ6qZAxjzq2bL9JRg/formResponse" method="POST" target="hidden_iframe" style="display: none;">
-        <input type="hidden" name="entry.1407465119" id="hiddenFullName">
-        <input type="hidden" name="entry.1409767644" id="hiddenEmail">
-        <input type="hidden" name="entry.1089448347" id="hiddenWhatsApp">
-        <input type="hidden" name="entry.70126457" id="hiddenCountry">
-        <input type="hidden" name="entry.504007575" id="hiddenCode">
-        <input type="hidden" name="entry.1210028863" id="hiddenDate">
+        <input type="hidden" name="entry.544815400" id="hiddenFullName">
+        <input type="hidden" name="entry.202286353" id="hiddenEmail">
+        <input type="hidden" name="entry.502182709" id="hiddenWhatsApp">
+        <input type="hidden" name="entry.652573459" id="hiddenCountry">
+        <input type="hidden" name="entry.1038402993" id="hiddenCode">
     </form>
     <iframe name="hidden_iframe" style="display: none;"></iframe>
 
     <script>
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const fullName = document.getElementById('fullNameInput').value.trim();
             const email = document.getElementById('emailInput').value;
             const whatsapp = document.getElementById('whatsappInput').value || '';
             const country = document.getElementById('countryInput').value;
             const code = 'AVX-' + Date.now().toString().slice(-6);
-            const date = new Date().toLocaleDateString('en-GB');
 
-            // Llenar los campos ocultos con los datos correctos
+            // Llenar los campos ocultos con los datos
             document.getElementById('hiddenFullName').value = fullName;
             document.getElementById('hiddenEmail').value = email;
             document.getElementById('hiddenWhatsApp').value = whatsapp;
             document.getElementById('hiddenCountry').value = country;
             document.getElementById('hiddenCode').value = code;
-            document.getElementById('hiddenDate').value = date;
 
             // Enviar el formulario oculto
             document.getElementById('hiddenForm').submit();
 
             // Guardar datos localmente y mostrar la tarjeta
-            localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
+            localStorage.setItem('avxUser', JSON.stringify({fullName, code}));
             document.getElementById('onboarding').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'block';
             showTab('card');
@@ -109,36 +107,8 @@
                             <h2>${user.fullName}</h2>
                             <p>${user.code}</p>
                             <p>Lifetime Member</p>
-                            <p>Since ${user.date}</p>
                             <img src="https://api.qrserver.com/v1/create-qr-code/?data=${user.code}&size=120x120" class="qr" alt="QR">
                         </div>
                     </div>
                     <button onclick="navigator.share?.({title:'My AVX Card', url: location.href}) || alert('Card shared!')" style="margin-top:30px; padding:18px; background:#F2A900; border:none; border-radius:14px; width:100%; font-weight:bold; font-size:19px;">Share Card</button>
-                    <button onclick="downloadCard()" style="margin-top:12px; padding:18px; background:#0b4d24; color:white; border:none; border-radius:14px; width:100%; font-weight:bold; font-size:19px;">Download Card as PNG</button>`;
-            } else if (tabName === 'editions') {
-                content.innerHTML = '<p style="font-size:19px">Edition 01 – January 2026<br>Interactive PDF coming soon</p>';
-            } else if (tabName === 'partners') {
-                content.innerHTML = '<ul style="text-align:left; font-size:18px"><li>Desafío Adventure – 20% off</li><li>Nayara Resorts – 15% off</li><li>Sky Adventures – 10% off</li><li>Pacuare Lodge – 25% off</li></ul>';
-            } else if (tabName === 'giveaways') {
-                content.innerHTML = '<p style="font-size:19px">Active Giveaway: Tandem Skydive<br>You are already entered!</p>';
-            }
-        }
-
-        function downloadCard() {
-            html2canvas(document.getElementById('card'), { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
-                const user = JSON.parse(localStorage.getItem('avxUser'));
-                const link = document.createElement('a');
-                link.download = `AVX_${user.code}.png`;
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
-
-        if (localStorage.getItem('avxUser')) {
-            document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'block';
-            showTab('card');
-        }
-    </script>
-</body>
-</html>
+                    <button onclick="downloadCard()" style="margin-top:12px; padding:18px; background:#0b4d24; color:white; border
