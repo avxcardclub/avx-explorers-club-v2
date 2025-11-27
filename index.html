@@ -64,7 +64,7 @@
     </div>
 
     <!-- Formulario oculto para envío a tu Sheet -->
-    <form id="hiddenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfD9wPodKujHqPHCrx1BnmNkOUbrqLTrz_tavuhYEOZ4BJL0g/formResponse" method="POST" style="display:none">
+   <form id="hiddenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfD9wPodKujHqPHCrx1BnmNkOUbrqLTrz_tavuhYEOZ4BJL0g/formResponse" method="POST" target="hidden_iframe" style="display:none">
         <input type="hidden" name="entry.735873847" id="hiddenFullName">
         <input type="hidden" name="entry.1668432272" id="hiddenEmail">
         <input type="hidden" name="entry.1880443365" id="hiddenWhatsApp">
@@ -72,7 +72,7 @@
         <input type="hidden" name="entry.1619438452" id="hiddenCode">
         <input type="hidden" name="entry.567890123" id="hiddenDate">
     </form>
-
+    <iframe name="hidden_iframe" style="display:none"></iframe>
     <script>
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
