@@ -24,13 +24,7 @@
         #card h2 { font-size:15px; margin:5px 0; font-weight:normal; }
         #card p { font-size:12px; margin:3px 0; font-weight:normal; }
         .qr { width:60px; height:60px; background:white; padding:4px; border-radius:6px; margin:8px 0; }
-</style>
-
-    <!-- Anti-caché definitivo (mata el verde para siempre) -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
+    </style>
 </head>
 <body>
     <div class="c">
@@ -63,8 +57,8 @@
         </div>
     </div>
 
-    <!-- Formulario oculto para envío a tu Sheet -->
-   <form id="hiddenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfD9wPodKujHqPHCrx1BnmNkOUbrqLTrz_tavuhYEOZ4BJL0g/formResponse" method="POST" target="hidden_iframe" style="display:none">
+    <!-- Formulario oculto conectado a tu Form/Sheet -->
+    <form id="hiddenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeOwkJMi558qdpXsUGeU3VjMU-MdhhZYOQ6qZAxjzq2bL9JRg/formResponse" method="POST" target="hidden_iframe" style="display:none">
         <input type="hidden" name="entry.735873847" id="hiddenFullName">
         <input type="hidden" name="entry.1668432272" id="hiddenEmail">
         <input type="hidden" name="entry.1880443365" id="hiddenWhatsApp">
@@ -73,34 +67,34 @@
         <input type="hidden" name="entry.567890123" id="hiddenDate">
     </form>
     <iframe name="hidden_iframe" style="display:none"></iframe>
+
     <script>
-     document.getElementById('registerForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const fullName = document.getElementById('fullNameInput').value.trim();
-    const email = document.getElementById('emailInput').value;
-    const whatsapp = document.getElementById('whatsappInput').value || '';
-    const country = document.getElementById('countryInput').value;
-    const code = 'AVX-' + Date.now().toString().slice(-6);
-    const date = new Date().toLocaleDateString('en-GB');
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('fullNameInput').value.trim();
+            const email = document.getElementById('emailInput').value;
+            const whatsapp = document.getElementById('whatsappInput').value || '';
+            const country = document.getElementById('countryInput').value;
+            const code = 'AVX-' + Date.now().toString().slice(-6);
+            const date = new Date().toLocaleDateString('en-GB');
 
-    // Llena los campos ocultos del formulario hiddenForm
-    document.getElementById('hiddenFullName').value = fullName;
-    document.getElementById('hiddenEmail').value = email;
-    document.getElementById('hiddenWhatsApp').value = whatsapp;
-    document.getElementById('hiddenCountry').value = country;
-    document.getElementById('hiddenCode').value = code;
-    document.getElementById('hiddenDate').value = date;
+            // Llena los campos ocultos
+            document.getElementById('hiddenFullName').value = fullName;
+            document.getElementById('hiddenEmail').value = email;
+            document.getElementById('hiddenWhatsApp').value = whatsapp;
+            document.getElementById('hiddenCountry').value = country;
+            document.getElementById('hiddenCode').value = code;
+            document.getElementById('hiddenDate').value = date;
 
-    // Envía el formulario oculto
-    document.getElementById('hiddenForm').submit();
+            // Envía en background (sin pestaña nueva)
+            document.getElementById('hiddenForm').submit();
 
-    // Inmediatamente guarda localmente y muestra la tarjeta
-    localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
-    document.getElementById('onboarding').style.display = 'none';
-    document.getElementById('mainScreen').style.display = 'block';
-    showTab('card');
-});
+            // Guarda local y muestra tarjeta
+            localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+            showTab('card');
+        });
 
         function showTab(t) {
             document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
