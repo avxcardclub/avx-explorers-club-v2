@@ -74,32 +74,59 @@
     </form>
     <iframe name="hidden_iframe" style="display:none"></iframe>
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const fullName = document.getElementById('fullNameInput').value.trim();
-            const email = document.getElementById('emailInput').value;
-            const whatsapp = document.getElementById('whatsappInput').value || '';
-            const country = document.getElementById('countryInput').value;
-            const code = 'AVX-' + Date.now().toString().slice(-6);
-            const date = new Date().toLocaleDateString('en-GB');
+       document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fullName = document.getElementById('fullNameInput').value.trim();
+    const email = document.getElementById('emailInput').value;
+    const whatsapp = document.getElementById('whatsappInput').value || '';
+    const country = document.getElementById('countryInput').value;
+    const code = 'AVX-' + Date.now().toString().slice(-6);
+    const date = new Date().toLocaleDateString('en-GB');
 
-            // Llena los campos ocultos para el envío
-            document.getElementById('hiddenFullName').value = fullName;
-            document.getElementById('hiddenEmail').value = email;
-            document.getElementById('hiddenWhatsApp').value = whatsapp;
-            document.getElementById('hiddenCountry').value = country;
-            document.getElementById('hiddenCode').value = code;
-            document.getElementById('hiddenDate').value = date;
+    // Llena los campos ocultos
+    document.getElementById('hiddenFullName').value = fullName;
+    document.getElementById('hiddenEmail').value = email;
+    document.getElementById('hiddenWhatsApp').value = whatsapp;
+    document.getElementById('hiddenCountry').value = country;
+    document.getElementById('hiddenCode').value = code;
+    document.getElementById('hiddenDate').value = date;
 
-            // Envía al Form en background (sin pestaña nueva)
-            document.getElementById('hiddenForm').submit();
+    // Crea un formulario temporal para enviar los datos y luego lo elimina
+    const tempForm = document.createElement('form');
+    tempForm.method = 'POST';
+    tempForm.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfD9wPodKujHqPHCrx1BnmNkOUbrqLTrz_tavuhYEOZ4BJL0g/formResponse';
+    tempForm.target = 'hidden_iframe';
+    tempForm.style.display = 'none';
 
-            // Guarda local y muestra la tarjeta
-            localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
-            document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'block';
-            showTab('card');
-        });
+    // Crea los campos ocultos con los valores
+    const inputs = [
+        {name: 'entry.735873847', value: fullName},
+        {name: 'entry.1668432272', value: email},
+        {name: 'entry.1880443365', value: whatsapp},
+        {name: 'entry.2130143793', value: country},
+        {name: 'entry.1619438452', value: code},
+        {name: 'entry.567890123', value: date}
+    ];
+
+    inputs.forEach(inputData => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = inputData.name;
+        input.value = inputData.value;
+        tempForm.appendChild(input);
+    });
+
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    document.body.removeChild(tempForm);
+
+    // Guarda localmente y muestra la tarjeta
+    localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
+    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('mainScreen').style.display = 'block';
+    showTab('card');
+});
 
         function showTab(t) {
             document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
