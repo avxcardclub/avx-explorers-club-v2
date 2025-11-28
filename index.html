@@ -9,20 +9,31 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
-            background: #2A6B3D; 
+            background: url('https://drive.google.com/uc?export=view&id=1xbrZNx-GIOMYCaXLxsrawOj_xCzhD2e4') center/cover no-repeat fixed;
             color: white; 
             min-height: 100vh; 
             padding: 20px 10px; 
             text-align: center; 
         }
-        .container { max-width: 400px; margin: 0 auto; }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+        .container { max-width: 400px; margin: 0 auto; position: relative; z-index: 1; }
         .logo { width: 140px; display: block; margin: 20px auto 10px; }
-        h1 { margin: 10px 0 20px; font-size: 28px; }
+        h1 { margin: 10px 0 20px; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         form { 
-            background: rgba(255,255,255,0.15); 
+            background: rgba(42, 107, 61, 0.95);
             padding: 30px; 
             border-radius: 18px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
         }
         input, select, button { 
             width: 100%; 
@@ -57,20 +68,21 @@
         .tab { 
             flex: 1; 
             padding: 16px; 
-            background: rgba(255,255,255,0.12); 
+            background: rgba(42, 107, 61, 0.8);
             border: none; 
             color: white; 
             font-weight: bold; 
             cursor: pointer; 
             transition: background 0.3s;
         }
-        .tab:hover { background: rgba(255,255,255,0.2); }
+        .tab:hover { background: rgba(42, 107, 61, 0.95); }
         .tab.active { background: #F2A900; color: black; }
         #tab-content { 
-            background: rgba(255,255,255,0.15); 
+            background: rgba(42, 107, 61, 0.95);
             padding: 30px; 
             border-radius: 0 0 18px 18px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
             min-height: 480px; 
         }
         #card { 
@@ -141,6 +153,11 @@
             font-size: 14px;
             color: #F2A900;
         }
+        .tagline {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 <body>
@@ -148,7 +165,7 @@
         <div id="onboarding">
             <img src="https://i.imgur.com/N2KXmYp.png" alt="AVX" class="logo">
             <h1>Welcome to AVX Explorers Club!</h1>
-            <p>Free lifetime digital membership</p>
+            <p class="tagline">Free lifetime digital membership</p>
             <form id="registerForm">
                 <input type="text" id="fullNameInput" placeholder="Full Name" required>
                 <input type="email" id="emailInput" placeholder="Email" required>
@@ -182,7 +199,7 @@
             <div class="tabs">
                 <button class="tab active" data-tab="card">Card</button>
                 <button class="tab" data-tab="editions">Editions</button>
-                <button class="tab" data-tab="partners">Partners</button>
+                <button class="tab" data-tab="perks">Perks</button>
                 <button class="tab" data-tab="giveaways">Giveaways</button>
             </div>
             <div id="tab-content"></div>
@@ -293,26 +310,31 @@
                         Stay tuned for exclusive content, adventure guides, and insider tips!
                     </p>
                 `;
-            } else if (tabName === 'partners') {
+            } else if (tabName === 'perks') {
                 content.innerHTML = `
-                    <h2 style="margin-bottom: 20px;">Partner Discounts</h2>
-                    <ul style="text-align:left; font-size:18px; line-height: 2; list-style: none; padding-left: 0;">
-                        <li>🎯 Desafío Adventure – 20% off</li>
-                        <li>🏨 Nayara Resorts – 15% off</li>
-                        <li>🪂 Sky Adventures – 10% off</li>
-                        <li>🏞️ Pacuare Lodge – 25% off</li>
-                    </ul>
-                    <p style="margin-top: 30px; font-size: 14px; opacity: 0.9;">
-                        Show your AVX card to redeem these exclusive offers
+                    <h2 style="margin-bottom: 20px;">🎁 Exclusive Perks</h2>
+                    <p style="font-size:18px; line-height: 1.8; margin-top: 40px;">
+                        <strong>Coming Soon!</strong><br><br>
+                        We're partnering with Costa Rica's top adventure operators to bring you incredible discounts on:<br><br>
+                        🪂 Skydiving & Paragliding<br>
+                        🚣 Rafting & Kayaking<br>
+                        🧗 Climbing & Canyoning<br>
+                        🏨 Adventure Lodges<br>
+                        🎒 Outdoor Gear<br><br>
+                        Stay tuned for announcements!
                     </p>
                 `;
             } else if (tabName === 'giveaways') {
                 content.innerHTML = `
-                    <h2 style="margin-bottom: 20px;">Active Giveaways</h2>
-                    <p style="font-size:19px; line-height: 1.6;">
-                        🎁 <strong>Tandem Skydive Experience</strong><br><br>
-                        You are automatically entered!<br><br>
-                        Winner announced: March 15, 2026
+                    <h2 style="margin-bottom: 20px;">🎉 Giveaways</h2>
+                    <p style="font-size:18px; line-height: 1.8; margin-top: 40px;">
+                        <strong>Exciting Prizes Coming Soon!</strong><br><br>
+                        Monthly giveaways launching February 2026:<br><br>
+                        🎁 Adventure experiences<br>
+                        🎒 Premium outdoor gear<br>
+                        📸 GoPro cameras<br>
+                        ✈️ Trip vouchers<br><br>
+                        You're already entered – just stay active!
                     </p>
                 `;
             }
