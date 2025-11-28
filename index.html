@@ -7,23 +7,140 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background: #2A6B3D; color: white; min-height: 100vh; padding: 20px 10px; text-align: center; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #2A6B3D; 
+            color: white; 
+            min-height: 100vh; 
+            padding: 20px 10px; 
+            text-align: center; 
+        }
         .container { max-width: 400px; margin: 0 auto; }
         .logo { width: 140px; display: block; margin: 20px auto 10px; }
         h1 { margin: 10px 0 20px; font-size: 28px; }
-        form { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        input, select, button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 17px; font-family: Arial; }
-        input, select { border: 2px solid #F2A900; background: white; color: #333; }
-        button { background: #F2A900; color: black; font-weight: bold; cursor: pointer; }
-        .tabs { display: flex; margin: 35px 0 15px; border-bottom: 3px solid #F2A900; border-radius: 12px 12px 0 0; overflow: hidden; }
-        .tab { flex: 1; padding: 16px; background: rgba(255,255,255,0.12); border: none; color: white; font-weight: bold; cursor: pointer; }
+        form { 
+            background: rgba(255,255,255,0.15); 
+            padding: 30px; 
+            border-radius: 18px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+        }
+        input, select, button { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 17px; 
+            font-family: Arial; 
+        }
+        input, select { 
+            border: 2px solid #F2A900; 
+            background: white; 
+            color: #333; 
+        }
+        button { 
+            background: #F2A900; 
+            color: black; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.02); }
+        button:active { transform: scale(0.98); }
+        .tabs { 
+            display: flex; 
+            margin: 35px 0 15px; 
+            border-bottom: 3px solid #F2A900; 
+            border-radius: 12px 12px 0 0; 
+            overflow: hidden; 
+        }
+        .tab { 
+            flex: 1; 
+            padding: 16px; 
+            background: rgba(255,255,255,0.12); 
+            border: none; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background 0.3s;
+        }
+        .tab:hover { background: rgba(255,255,255,0.2); }
         .tab.active { background: #F2A900; color: black; }
-        #tab-content { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 0 0 18px 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); min-height: 480px; }
-        #card { background: url('https://i.imgur.com/0Xk9WoM.png') center/contain no-repeat; width: 100%; height: 220px; border-radius: 15px; display: flex; align-items: center; justify-content: flex-end; overflow: hidden; }
-        #card .info { width: 60%; padding: 15px; text-align: right; color: white; font-family: Arial; font-size: 12px; }
+        #tab-content { 
+            background: rgba(255,255,255,0.15); 
+            padding: 30px; 
+            border-radius: 0 0 18px 18px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+            min-height: 480px; 
+        }
+        #card { 
+            background: url('https://i.imgur.com/0Xk9WoM.png') center/contain no-repeat; 
+            width: 100%; 
+            height: 220px; 
+            border-radius: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            overflow: hidden; 
+        }
+        #card .info { 
+            width: 60%; 
+            padding: 15px; 
+            text-align: right; 
+            color: white; 
+            font-family: Arial; 
+            font-size: 12px; 
+        }
         #card h2 { font-size: 15px; margin: 5px 0; font-weight: normal; }
         #card p { font-size: 12px; margin: 3px 0; font-weight: normal; }
-        .qr { width: 60px; height: 60px; background: white; padding: 4px; border-radius: 6px; margin: 8px 0; }
+        .qr { 
+            width: 60px; 
+            height: 60px; 
+            background: white; 
+            padding: 4px; 
+            border-radius: 6px; 
+            margin: 8px 0; 
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            margin: 15px 0;
+        }
+        .checkbox-label input {
+            width: auto;
+            margin-right: 10px;
+        }
+        .btn-secondary {
+            margin-top: 12px;
+            padding: 18px;
+            background: #0b4d24;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 19px;
+            cursor: pointer;
+        }
+        .btn-primary {
+            margin-top: 30px;
+            padding: 18px;
+            background: #F2A900;
+            border: none;
+            border-radius: 14px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 19px;
+            cursor: pointer;
+        }
+        .loading {
+            display: none;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #F2A900;
+        }
     </style>
 </head>
 <body>
@@ -37,21 +154,36 @@
                 <input type="email" id="emailInput" placeholder="Email" required>
                 <input type="tel" id="whatsappInput" placeholder="WhatsApp (optional)">
                 <select id="countryInput" required>
-                    <option value="">Country</option>
-                    <option>USA</option><option>UK</option><option>Canada</option><option>Germany</option>
-                    <option>France</option><option>Costa Rica</option><option>Other</option>
+                    <option value="">Select Country</option>
+                    <option>USA</option>
+                    <option>UK</option>
+                    <option>Canada</option>
+                    <option>Germany</option>
+                    <option>France</option>
+                    <option>Spain</option>
+                    <option>Costa Rica</option>
+                    <option>Mexico</option>
+                    <option>Colombia</option>
+                    <option>Venezuela</option>
+                    <option>Argentina</option>
+                    <option>Brazil</option>
+                    <option>Other</option>
                 </select>
-                <label><input type="checkbox" id="terms" required> I accept terms & conditions</label>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I accept terms & conditions</label>
+                </div>
                 <button type="submit">Generate My Card</button>
+                <div class="loading" id="loadingMsg">Creating your membership...</div>
             </form>
         </div>
 
         <div id="mainScreen" style="display: none">
             <div class="tabs">
-                <button class="tab active" onclick="showTab('card')">Card</button>
-                <button class="tab" onclick="showTab('editions')">Editions</button>
-                <button class="tab" onclick="showTab('partners')">Partners</button>
-                <button class="tab" onclick="showTab('giveaways')">Giveaways</button>
+                <button class="tab active" data-tab="card">Card</button>
+                <button class="tab" data-tab="editions">Editions</button>
+                <button class="tab" data-tab="partners">Partners</button>
+                <button class="tab" data-tab="giveaways">Giveaways</button>
             </div>
             <div id="tab-content"></div>
         </div>
@@ -69,16 +201,21 @@
     <iframe name="hidden_iframe" style="display: none;"></iframe>
 
     <script>
+        // Manejo del registro
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Mostrar indicador de carga
+            document.getElementById('loadingMsg').style.display = 'block';
+            
             const fullName = document.getElementById('fullNameInput').value.trim();
             const email = document.getElementById('emailInput').value;
-            const whatsapp = document.getElementById('whatsappInput').value || '';
+            const whatsapp = document.getElementById('whatsappInput').value || 'N/A';
             const country = document.getElementById('countryInput').value;
             const code = 'AVX-' + Date.now().toString().slice(-6);
             const date = new Date().toLocaleDateString('en-GB');
 
-            // Llenar los campos ocultos con los datos correctos
+            // Llenar los campos ocultos
             document.getElementById('hiddenFullName').value = fullName;
             document.getElementById('hiddenEmail').value = email;
             document.getElementById('hiddenWhatsApp').value = whatsapp;
@@ -89,18 +226,49 @@
             // Enviar el formulario oculto
             document.getElementById('hiddenForm').submit();
 
-            // Guardar datos localmente y mostrar la tarjeta
-            localStorage.setItem('avxUser', JSON.stringify({fullName, code, date}));
-            document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'block';
-            showTab('card');
+            // Guardar datos localmente
+            const userData = {
+                fullName: fullName,
+                email: email,
+                whatsapp: whatsapp,
+                country: country,
+                code: code,
+                date: date
+            };
+            
+            localStorage.setItem('avxUser', JSON.stringify(userData));
+
+            // Pequeño delay para dar tiempo al envío
+            setTimeout(() => {
+                document.getElementById('loadingMsg').style.display = 'none';
+                document.getElementById('onboarding').style.display = 'none';
+                document.getElementById('mainScreen').style.display = 'block';
+                showTab('card');
+            }, 1000);
+        });
+
+        // Sistema de tabs mejorado
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                showTab(tabName);
+                
+                // Actualizar tabs activos
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
 
         function showTab(tabName) {
-            document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
             const content = document.getElementById('tab-content');
-            const user = JSON.parse(localStorage.getItem('avxUser'));
+            const userData = localStorage.getItem('avxUser');
+            
+            if (!userData) {
+                console.error('No user data found');
+                return;
+            }
+            
+            const user = JSON.parse(userData);
             
             if (tabName === 'card') {
                 content.innerHTML = `
@@ -113,27 +281,87 @@
                             <img src="https://api.qrserver.com/v1/create-qr-code/?data=${user.code}&size=120x120" class="qr" alt="QR">
                         </div>
                     </div>
-                    <button onclick="navigator.share?.({title:'My AVX Card', url: location.href}) || alert('Card shared!')" style="margin-top:30px; padding:18px; background:#F2A900; border:none; border-radius:14px; width:100%; font-weight:bold; font-size:19px;">Share Card</button>
-                    <button onclick="downloadCard()" style="margin-top:12px; padding:18px; background:#0b4d24; color:white; border:none; border-radius:14px; width:100%; font-weight:bold; font-size:19px;">Download Card as PNG</button>`;
+                    <button onclick="shareCard()" class="btn-primary">Share Card</button>
+                    <button onclick="downloadCard()" class="btn-secondary">Download Card as PNG</button>
+                `;
             } else if (tabName === 'editions') {
-                content.innerHTML = '<p style="font-size:19px">Edition 01 – January 2026<br>Interactive PDF coming soon</p>';
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">Digital Editions</h2>
+                    <p style="font-size:19px; line-height: 1.6;">
+                        <strong>Edition 01 – February 2026</strong><br>
+                        Interactive PDF coming soon<br><br>
+                        Stay tuned for exclusive content, adventure guides, and insider tips!
+                    </p>
+                `;
             } else if (tabName === 'partners') {
-                content.innerHTML = '<ul style="text-align:left; font-size:18px"><li>Desafío Adventure – 20% off</li><li>Nayara Resorts – 15% off</li><li>Sky Adventures – 10% off</li><li>Pacuare Lodge – 25% off</li></ul>';
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">Partner Discounts</h2>
+                    <ul style="text-align:left; font-size:18px; line-height: 2; list-style: none; padding-left: 0;">
+                        <li>🎯 Desafío Adventure – 20% off</li>
+                        <li>🏨 Nayara Resorts – 15% off</li>
+                        <li>🪂 Sky Adventures – 10% off</li>
+                        <li>🏞️ Pacuare Lodge – 25% off</li>
+                    </ul>
+                    <p style="margin-top: 30px; font-size: 14px; opacity: 0.9;">
+                        Show your AVX card to redeem these exclusive offers
+                    </p>
+                `;
             } else if (tabName === 'giveaways') {
-                content.innerHTML = '<p style="font-size:19px">Active Giveaway: Tandem Skydive<br>You are already entered!</p>';
+                content.innerHTML = `
+                    <h2 style="margin-bottom: 20px;">Active Giveaways</h2>
+                    <p style="font-size:19px; line-height: 1.6;">
+                        🎁 <strong>Tandem Skydive Experience</strong><br><br>
+                        You are automatically entered!<br><br>
+                        Winner announced: March 15, 2026
+                    </p>
+                `;
+            }
+        }
+
+        function shareCard() {
+            const user = JSON.parse(localStorage.getItem('avxUser'));
+            const shareData = {
+                title: 'My AVX Explorers Club Card',
+                text: `I'm now a member of AVX Explorers Club! Code: ${user.code}`,
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Card shared successfully'))
+                    .catch((err) => console.log('Error sharing:', err));
+            } else {
+                // Fallback: copiar al clipboard
+                navigator.clipboard.writeText(`AVX Explorers Club Member: ${user.code}\n${window.location.href}`)
+                    .then(() => alert('Card info copied to clipboard!'))
+                    .catch(() => alert('Unable to share. Please screenshot your card.'));
             }
         }
 
         function downloadCard() {
-            html2canvas(document.getElementById('card'), { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+            const cardElement = document.getElementById('card');
+            if (!cardElement) {
+                alert('Card not found. Please refresh the page.');
+                return;
+            }
+            
+            html2canvas(cardElement, { 
+                scale: 3, 
+                useCORS: true, 
+                backgroundColor: null 
+            }).then(canvas => {
                 const user = JSON.parse(localStorage.getItem('avxUser'));
                 const link = document.createElement('a');
                 link.download = `AVX_${user.code}.png`;
-                link.href = canvas.toDataURL();
+                link.href = canvas.toDataURL('image/png');
                 link.click();
+            }).catch(err => {
+                console.error('Error generating card image:', err);
+                alert('Error downloading card. Please try again.');
             });
         }
 
+        // Verificar si ya hay un usuario registrado
         if (localStorage.getItem('avxUser')) {
             document.getElementById('onboarding').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'block';
